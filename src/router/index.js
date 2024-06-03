@@ -1,27 +1,42 @@
 import { createRouter, createWebHistory } from "vue-router";
-import test from "../views/pages/test.vue";
+
+import Dashboard from "@pages/Dashboard.vue"
+import User from "@pages/User/User.vue"
+import Signin from "@pages/Signin.vue"
+import DefaultLayout from '@layouts/DefaultLayout.vue';
+import AuthLayout from '@layouts/AuthLayout.vue';
+
 
 const routes = [
     {
-        path:"/admin",
-        name: "admin",
+        path:"/",
+        name: "/",
+        component: DefaultLayout,
+        redirect: "/dashboard",
         children:[
             {
-                path:"test",
-                name:"test",
-                component: test,
+                path:"/dashboard",
+                name: "Dashboard",
+                component: Dashboard,
             },
             {
-                path:"movies",
-                name:"movies",
-                component: test,
-            }
+                path:"/users",
+                name: "Người dùng",
+                component: User,
+            },
         ]
     },
     {
-        path:"/",
-        name: "/",
-    }
+        path:"/signin",
+        component: AuthLayout,
+        children: [
+            {
+                path: '',
+                name: 'Signin',
+                component: Signin,
+            },
+        ],
+    },
 ];
 
 const router = createRouter({

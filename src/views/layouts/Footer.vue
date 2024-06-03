@@ -6,9 +6,6 @@
             © 2024 Made With By longdz@gmail.com
           </span>
         </div>
-        <div>
-          <span>License</span>
-        </div>
       </div>
   </footer>
 </template>
@@ -18,10 +15,4 @@
 </script>
 
 <style lang="scss" scoped>
-.footer{
-  color: var(--primary-color);
-        span{
-          color: var(--text-purple);
-        }
-}
 </style>

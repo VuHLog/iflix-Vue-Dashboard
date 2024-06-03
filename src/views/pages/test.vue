@@ -7,9 +7,6 @@
         :items="['Admin', 'Danh sách Movies']"
       ></v-breadcrumbs>
       <VDatatables :data="data">
-        <template #create>
-          <createMovies></createMovies>
-        </template>
       </VDatatables>
       <AdminFooter />
     </v-main>
@@ -21,7 +18,6 @@ import { ref, onBeforeMount, onMounted } from "vue";
 import AdminFooter from "@layouts/Footer.vue";
 import AdminHeader from "@layouts/Header.vue";
 import VDatatables from "@components/VDatatables.vue";
-import createMovies from "../layouts/popupCreate/createMovies.vue";
 import { getCurrentInstance } from "vue";
 
 const { proxy } = getCurrentInstance();

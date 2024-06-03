@@ -14,43 +14,27 @@ ul, ol{
     list-style: none;
 }
 
-:root{
-    --primary-color: #D1D5DB;
-    --primary-bg: #283046;
-    --primary-bg-content: #161D31;
-    --text-purple:  rgb(115 103 240);
+.text-white{
+    color:#fff;
 }
 
-//side-nav
-.sidenav-item{
-    .active{
-        background-image: linear-gradient(310deg, #5e72e4, #5e72e4);
-    }
+.text-info{
+    color:#3498db
 }
 
-.nav-link-text{
-    color: #fff;
-    text-decoration: none;
+.text-red{
+    color: #e74c3c;
 }
 
-.bg-color-sidenav{
-    background-color: #172b4d;
+.background-default{
+    background-color: #2dce89;
+    min-height: 300px;
 }
 
-
-
-.bg-color{
-    background-color: #283046;
+.text-head-table{
+    color: #ecf0f1 !important;
 }
 
-.bg-color-content{
-    background-color:#161D31 ;
-}
-
-.text-color{
-    color: #D1D5DB !important;
-}
-
-.text-purple{
-    color: rgb(115 103 240);
+.text-body-table{
+    color: #344767 !important;
 }

@@ -11,7 +11,7 @@ const getRoute = () => {
 
 <template>
   <aside
-    class="sidenav position-fixed d-block top-0 bottom-0 bg-color-sidenav w-100 my-4 ml-4"
+    class="sidenav position-fixed d-block top-0 bottom-0 bg-color-sidenav my-4 ml-4"
   >
     <div class="sidenav-header">
       <router-link class="" to="/">
@@ -108,6 +108,7 @@ const getRoute = () => {
 
 
 <style lang="scss" scoped>
+@import url("@/assets/scss/sidenav.scss");
 .sidenav {
   border-radius: 16px;
   max-width: 230px;
@@ -127,11 +128,6 @@ const getRoute = () => {
       #fff,
       hsla(0, 0%, 100%, 0)
     ) !important;
-  }
-
-  .sidenav-list {
-    .sidenav-item {
-    }
   }
 }
 </style>
