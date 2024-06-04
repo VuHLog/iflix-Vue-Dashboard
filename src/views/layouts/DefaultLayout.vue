@@ -17,7 +17,7 @@ const showFooter = computed(() => store.showFooter);
   </div>
 
   <v-row class="position-absolute top-0 left-0 right-0 w-100" no-gutters>
-    <v-col sm="0" md="3" lg="2">
+    <v-col class="d-none d-md-block" sm="0" md="3" lg="2">
       <Transition class="sidenav" name="slide-fade">
         <Sidenav class="w-100" v-if="showSidenav" />
       </Transition>

@@ -10,32 +10,32 @@ const instance = axios.create({
   },
 });
 
-// Tạo một interceptor để thêm token vào header của request
-// instance.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem("authToken");
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => Promise.reject(error)
-// );
+//Tạo một interceptor để thêm token vào header của request
+instance.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => Promise.reject(error)
+)
 
-// // Tạo một interceptor để xử lý các lỗi trả về từ server
-// instance.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const { response } = error;
-//     if (response && response.status === 401) {
-//       // Nếu token hết hạn hoặc không hợp lệ, thực hiện đăng xuất
-//       //   await store.dispatch('logout')
-//       // Chuyển hướng về trang đăng nhập
-//       router.push("/login");
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+// Tạo một interceptor để xử lý các lỗi trả về từ server
+instance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const { response } = error
+    if (response && response.status === 401) {
+      // Nếu token hết hạn hoặc không hợp lệ, thực hiện đăng xuất
+      await store.dispatch('logout')
+      // Chuyển hướng về trang đăng nhập
+      router.push('/sign-in')
+    }
+    return Promise.reject(error)
+  }
+)
 
 export const base = {
   async get(url, params = {}) {

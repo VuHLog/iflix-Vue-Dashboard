@@ -1,12 +1,27 @@
 <script setup>
 import SidenavItem from "@layouts/sidenav/SidenavItem.vue";
-import { useRoute } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
+import { getCurrentInstance } from "vue";
 
+const { proxy } = getCurrentInstance();
+
+const route = useRoute();
 const getRoute = () => {
-  const route = useRoute();
   const routeArr = route.path.split("/");
   return routeArr[1];
 };
+
+const token = sessionStorage.getItem("token");
+const router = useRouter();
+async function signOut() {
+  await proxy.$api
+    .post("/auth/logout", token)
+    .then(() => {
+      sessionStorage.removeItem("token");
+      router.push("/sign-in");
+    })
+    .catch();
+}
 </script>
 
 <template>
@@ -35,7 +50,6 @@ const getRoute = () => {
       </li>
       <li class="sidenav-item">
         <sidenav-item
-
           :class="getRoute() === 'users' ? 'active' : ''"
           to="/users"
           navText="Người dùng"
@@ -92,16 +106,15 @@ const getRoute = () => {
     </ul>
     <hr class="m-0 mb-3" />
 
-    <div class="sidenav-item">
-      <sidenav-item
-        :class="getRoute() === 'logout' ? 'active' : ''"
-        to="/logout"
-        navText="Đăng xuất"
-      >
-        <template v-slot:icon>
-          <font-awesome-icon :icon="['fas', 'arrow-right-to-bracket']" />
-        </template>
-      </sidenav-item>
+    <div
+      class="sign-out rounded-lg nav-link-text d-flex align-center justify-start mx-2 py-2 px-3 cursor-pointer"
+      @click="signOut()"
+    >
+      <font-awesome-icon
+        class="p-2"
+        :icon="['fas', 'arrow-right-to-bracket']"
+      />
+      <span class="ml-2">Đăng xuất</span>
     </div>
   </aside>
 </template>
@@ -128,6 +141,11 @@ const getRoute = () => {
       #fff,
       hsla(0, 0%, 100%, 0)
     ) !important;
+  }
+  .sign-out {
+    &:hover {
+      background-image: linear-gradient(310deg, #5e72e4, #5e72e4);
+    }
   }
 }
 </style>

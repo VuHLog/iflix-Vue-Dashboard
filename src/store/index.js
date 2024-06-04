@@ -6,6 +6,9 @@ export const useBaseStore = defineStore("base", {
       showSidenav: true,
       showNavbar: true,
       showFooter: true,
+      isLoggedIn: false,
+      role: "",
+      username:"",
     };
   },
   getters: {},

@@ -1,11 +1,13 @@
 <script setup>
-import { ref } from "vue";
+import { ref ,getCurrentInstance } from "vue";
 import { useBaseStore } from "@/store/index.js";
-import { getCurrentInstance } from "vue";
+import { useRouter } from "vue-router";
 
 const { proxy } = getCurrentInstance();
 
 const store = useBaseStore();
+
+const router = useRouter();
 
 const errorMsg = ref("");
 
@@ -14,35 +16,26 @@ const user = ref({
   password: ""
 });
 
-async function signin() {
+async function signIn() {
   await proxy.$api.post("/auth/token", user.value).then((res) => {
-    console.log(res);
-    return res;
-  }).catch(({response}) =>{
-    errorMsg.value = "Tài khoản, mật khẩu không chính xác"
+    sessionStorage.setItem("token",res.result.token);
+    router.push("/dashboard")
+  }).catch(() =>{
+    errorMsg.value = "Tài khoản, mật khẩu không chính xác";
   })
-  //   .dispatch("login", user)
-  //   .then(() => {
-  //     loading.value = false;
-  //     router.push({ name: "app.dashboard" });
-  //   })
-  //   .catch(({ response }) => {
-  //     loading.value = false;
-  //     errorMsg.value = response.data.message;
-  //   });
 }
 </script>
 
 <template>
   <div class="main-content">
     <v-row class="h-100" no-gutters>
-      <v-col class="my-auto d-flex justify-center" cols="6">
+      <v-col class="my-auto d-flex justify-center" md="6" sm="12">
         <div class="d-flex flex-column w-75">
           <h4 class="font-weight-bold">Đăng nhập</h4>
           <form
             class="mt-8 space-y-6 mb-4"
             method="POST"
-            @submit.prevent="signin"
+            @submit.prevent="signIn"
           >
             <input
               v-model="user.username"
@@ -81,7 +74,7 @@ async function signin() {
           </p>
         </div>
       </v-col>
-      <v-col class="d-flex align-center justify-center" cols="6">
+      <v-col class="d-flex align-center justify-center d-none d-md-flex" md="6" sm="0">
         <div class="banner">
           <img class="w-100 rounded-lg" src="@images/signin/banner.png"
           alt="Iflix Logo"
