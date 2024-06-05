@@ -6,23 +6,18 @@ import { inject } from "vue";
 const { proxy } = getCurrentInstance();
 const swal = inject("$swal");
 
-const users = ref([]);
+const countries = ref([]);
 const totalElements = ref(0);
 const totalPages = ref(0);
-const field = ref("username");
+const field = ref("name");
 const sort = ref("ASC");
 const pageSize = ref(0);
 const pageNumber = ref(0);
 const search = ref("");
 
-function truncateData(data) {
-  const maxLength = 10;
-  return data.length > maxLength ? data.substring(0, maxLength) + "..." : data;
-}
-
 onMounted(() => {
-  proxy.$api.get("/admin/users").then((res) => {
-    users.value = res.content;
+  proxy.$api.get("/admin/countries").then((res) => {
+    countries.value = res.content;
     totalElements.value = res.totalElements;
     totalPages.value = res.totalPages;
     pageSize.value = res.pageable.pageSize;
@@ -33,7 +28,7 @@ onMounted(() => {
 const reloadData = () => {
   proxy.$api
     .get(
-      "/admin/users?pageNumber=" +
+      "/admin/countries?pageNumber=" +
         pageNumber.value +
         "&pageSize=" +
         pageSize.value +
@@ -45,7 +40,7 @@ const reloadData = () => {
         search.value
     )
     .then((res) => {
-      users.value = res.content;
+      countries.value = res.content;
       totalElements.value = res.totalElements;
       totalPages.value = res.totalPages;
       pageSize.value = res.pageable.pageSize;
@@ -53,7 +48,7 @@ const reloadData = () => {
     });
 };
 
-async function deleteUser(id) {
+async function deleteCountries(id) {
   swal
     .fire({
       title: "Bạn có chắc chắn muốn xoá không?",
@@ -66,7 +61,7 @@ async function deleteUser(id) {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        proxy.$api.delete("/admin/users/" + id, {}).then(() => {
+        proxy.$api.delete("/admin/countries/" + id, {}).then(() => {
           console.log("Xoá thành công!");
         });
         reloadData();
@@ -93,10 +88,10 @@ watch(search, () => {
     <div
       class="card-header d-flex justify-space-between align-center mb-4 font-weight-bold"
     >
-      <span class="text-h5">Bảng người dùng</span>
+      <span class="text-h5">Bảng quốc gia</span>
       <div class="btn btn-success">
         <font-awesome-icon :icon="['fas', 'plus']" />
-        <router-link to="/createUser">
+        <router-link to="/createCountries">
           <button class="text-white" type="button">Thêm mới</button>
         </router-link>
       </div>
@@ -128,32 +123,12 @@ watch(search, () => {
               <th
                 class="text-start text-uppercase text-head-table text-xxs font-weight-bolder opacity-7"
               >
-                Họ và tên
+                Tên quốc gia
               </th>
               <th
                 class="text-start text-uppercase text-head-table text-xxs font-weight-bolder opacity-7 ps-2"
               >
-                Tên đăng nhập
-              </th>
-              <th
-                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
-              >
-                Mật khẩu
-              </th>
-              <th
-                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
-              >
-                Email
-              </th>
-              <th
-                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
-              >
-                Số điện thoại
-              </th>
-              <th
-                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
-              >
-                Vai trò
+                Slug
               </th>
               <th
                 class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
@@ -163,7 +138,7 @@ watch(search, () => {
             </tr>
           </thead>
           <tbody>
-            <template v-for="(user, index) in users" :key="user.id">
+            <template v-for="(c, index) in countries" :key="countries.id">
               <tr>
                 <td>
                   <div class="d-flex px-2 py-1">
@@ -171,44 +146,17 @@ watch(search, () => {
                   </div>
                 </td>
                 <td class="align-middle text-start text-sm">
-                  <div class="d-flex align-center px-2 py-1 row">
-                    <div class="col-md-3">
-                      <img
-                        :src="user.avatarUrl"
-                        class="me-3 img-thumbnail avatar-user"
-                        alt="user1"
-                      />
-                    </div>
-                    <div
-                      class="d-flex flex-column justify-content-start col-md-9"
-                    >
-                      <h6 class="mb-0 text-sm">{{ user.fullName }}</h6>
-                    </div>
-                  </div>
-                </td>
-                <td class="align-middle text-start text-sm">
                   <p class="text-xs text-body-table mb-0 text-start">
-                    {{ user.username }}
+                    {{ c.name }}
                   </p>
                 </td>
-                <td class="align-middle text-start text-sm">
-                  <span class="">{{ truncateData(user.password) }}</span>
-                </td>
                 <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ user.email }}</span>
-                </td>
-                <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ user.phone }}</span>
-                </td>
-                <td class="align-middle text-start">
-                  <template v-for="role in user.roles">
-                    <p class="text-body-table text-xs mb-0 mr-3">{{ role }}</p>
-                  </template>
+                  <span class="text-body-table text-xs">{{ c.slug }}</span>
                 </td>
                 <td class="align-middle text-start">
                   <div class="d-flex">
                     <div class="icon-edit">
-                      <router-link :to="'/editUser/' + user.id">
+                      <router-link :to="'/editCountries/' + c.id">
                         <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                       </router-link>
                       <v-tooltip activator="parent" location="bottom">
@@ -216,7 +164,7 @@ watch(search, () => {
                       </v-tooltip>
                     </div>
                     <div class="icon-delete ml-4">
-                      <div class="text-red" @click="deleteUser(user.id)">
+                      <div class="text-red" @click="deleteCountries(c.id)">
                         <font-awesome-icon :icon="['fas', 'trash-can']" />
                       </div>
                       <v-tooltip activator="parent" location="bottom">
@@ -226,7 +174,7 @@ watch(search, () => {
                     <div class="icon-delete ml-4">
                       <router-link
                         class="text-info"
-                        :to="'/infoUser/' + user.id"
+                        :to="'/infoCountries/' + c.id"
                       >
                         <font-awesome-icon :icon="['fas', 'info']" />
                       </router-link>
@@ -268,7 +216,4 @@ watch(search, () => {
 </template>
 
 <style lang="scss" scoped>
-.avatar-user {
-  height: 40px;
-}
 </style>

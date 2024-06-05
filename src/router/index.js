@@ -3,13 +3,25 @@ import { jwtDecode } from "jwt-decode";
 import { useBaseStore } from "@/store/index.js";
 
 import Dashboard from "@pages/Dashboard.vue";
-import User from "@pages/User/User.vue";
 import Signin from "@pages/Signin.vue";
 import DefaultLayout from "@layouts/DefaultLayout.vue";
 import AuthLayout from "@layouts/AuthLayout.vue";
+import User from "@pages/User/User.vue";
 import CreateUser from "@pages/User/Create.vue";
 import EditUser from "@pages/User/Edit.vue";
 import InfoUser from "@pages/User/Info.vue";
+import Genres from "@pages/Genres/Genres.vue";
+import CreateGenres from "@pages/Genres/Create.vue";
+import EditGenres from "@pages/Genres/Edit.vue";
+import InfoGenres from "@pages/Genres/Info.vue";
+import Countries from "@pages/Countries/Countries.vue";
+import CreateCountries from "@pages/Countries/Create.vue";
+import EditCountries from "@pages/Countries/Edit.vue";
+import InfoCountries from "@pages/Countries/Info.vue";
+import Categories from "@pages/Categories/Categories.vue";
+import CreateCategories from "@pages/Categories/Create.vue";
+import EditCategories from "@pages/Categories/Edit.vue";
+import InfoCategories from "@pages/Categories/Info.vue";
 
 
 const routes = [
@@ -26,17 +38,11 @@ const routes = [
         name: "Dashboard",
         component: Dashboard,
       },
+      //table User
       {
         path: "/users",
         name: "Người dùng",
-        component: User,
-        children: [
-            {
-              path: "/users/create",
-              name: "Create user",
-              component: CreateUser,
-            },
-        ],
+        component: User
       },
       {
         path: "/infoUser/:userId",
@@ -52,6 +58,72 @@ const routes = [
         path: "/editUser/:userId",
         name: "Edit User",
         component: EditUser,
+      },
+
+      //table Genres
+      {
+        path: "/genres",
+        name: "Thể loại",
+        component: Genres
+      },
+      {
+        path: "/infoGenres/:genresId",
+        name: "Info Genres",
+        component: InfoGenres,
+      },
+      {
+        path: "/createGenres",
+        name: "Create Genres",
+        component: CreateGenres,
+      },
+      {
+        path: "/editGenres/:genresId",
+        name: "Edit Genres",
+        component: EditGenres,
+      },
+
+      //table Countries
+      {
+        path: "/countries",
+        name: "Quốc gia",
+        component: Countries
+      },
+      {
+        path: "/infoCountries/:countriesId",
+        name: "Info Countries",
+        component: InfoCountries,
+      },
+      {
+        path: "/createCountries",
+        name: "Create Countries",
+        component: CreateCountries,
+      },
+      {
+        path: "/editCountries/:countriesId",
+        name: "Edit Countries",
+        component: EditCountries,
+      },
+
+      //table Categories
+      {
+        path: "/Categories",
+        name: "Danh mục",
+        component: Categories
+      },
+      {
+        path: "/infoCategories/:categoriesId",
+        name: "Info Categories",
+        component: InfoCategories,
+      },
+      {
+        path: "/createCategories",
+        name: "Create Categories",
+        component: CreateCategories,
+      },
+      {
+        path: "/editCategories/:categoriesId",
+        name: "Edit Categories",
+        component: EditCategories,
       },
     ],
   },

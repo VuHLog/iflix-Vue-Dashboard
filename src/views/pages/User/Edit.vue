@@ -98,7 +98,7 @@ async function updateUser() {
   <div class="card mt-4">
     <div class="card-header pb-0">
       <div class="d-flex align-items-center">
-        <p class="mb-0">Thêm mới</p>
+        <p class="mb-0">Chỉnh sửa</p>
       </div>
     </div>
     <div class="card-body">
