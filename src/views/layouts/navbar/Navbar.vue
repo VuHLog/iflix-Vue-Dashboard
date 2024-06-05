@@ -11,8 +11,10 @@ const currentRouteName = computed(() => {
   return route.name;
 });
 
+const fullName = store.fullName;
+const roles = store.roles;
+
 const currentDirectory = computed(() => {
-  console.log(route.path);
   let dir = route.path.split("/")[1];
   return dir.charAt(0).toUpperCase() + dir.slice(1);
 });
@@ -50,8 +52,8 @@ const minimizeSidebar = () => {
           <div class="text-white user d-flex align-center">
             <font-awesome-icon :icon="['fas', 'user']" />
             <div class="d-flex flex-column ml-2">
-              <p class="username m-0">Hoàng Long</p>
-              <p class="user-role m-0">ADMIN</p>
+              <p class="username m-0">{{fullName}}</p>
+              <p class="user-role m-0">{{roles}}</p>
             </div>
           </div>
         </router-link>

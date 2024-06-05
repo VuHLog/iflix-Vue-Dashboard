@@ -7,16 +7,13 @@ export const useBaseStore = defineStore("base", {
       showNavbar: true,
       showFooter: true,
       isLoggedIn: false,
-      role: "",
+      roles: "",
       username:"",
+      fullName:"",
+      avatarUserDefault: "https://res.cloudinary.com/iflixlong/image/upload/v1717530924/icon-256x256_judaje.png",
     };
   },
   getters: {},
   actions: {
-    signin(user) {
-    //   await proxy.$api.get("/admin/movies").then((res) => {
-    //     data.value = res;
-    //   });
-    },
-  },
+  }
 });

@@ -25,6 +25,10 @@ import { createPinia } from 'pinia'
 //api
 import {base} from './apis/ApiService.js'
 
+//Sweetalert
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 const pinia = createPinia();
 const app = createApp(App);
 
@@ -52,6 +56,7 @@ app.use(router);
 app.use(vuetify);
 app.use(pinia)
 app.use(bootstrap);
+app.use(VueSweetalert2);
 
 const config = app.config;
 config.globalProperties.$api = base;

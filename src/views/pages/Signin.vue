@@ -19,6 +19,7 @@ const user = ref({
 async function signIn() {
   await proxy.$api.post("/auth/token", user.value).then((res) => {
     sessionStorage.setItem("token",res.result.token);
+    
     router.push("/dashboard")
   }).catch(() =>{
     errorMsg.value = "Tài khoản, mật khẩu không chính xác";
@@ -85,7 +86,6 @@ async function signIn() {
 </template>
 
 <style lang="scss" scoped>
-@import url("@/assets/scss/signin.scss");
 .main-content {
   height: 100vh;
   .form-control {

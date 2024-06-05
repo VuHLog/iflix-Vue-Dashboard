@@ -1,12 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { jwtDecode } from "jwt-decode";
+import { useBaseStore } from "@/store/index.js";
 
 import Dashboard from "@pages/Dashboard.vue";
 import User from "@pages/User/User.vue";
 import Signin from "@pages/Signin.vue";
 import DefaultLayout from "@layouts/DefaultLayout.vue";
 import AuthLayout from "@layouts/AuthLayout.vue";
-import { useBaseStore } from "@/store/index.js";
+import CreateUser from "@pages/User/Create.vue";
+import EditUser from "@pages/User/Edit.vue";
+import InfoUser from "@pages/User/Info.vue";
+
 
 const routes = [
   {
@@ -26,6 +30,28 @@ const routes = [
         path: "/users",
         name: "Người dùng",
         component: User,
+        children: [
+            {
+              path: "/users/create",
+              name: "Create user",
+              component: CreateUser,
+            },
+        ],
+      },
+      {
+        path: "/infoUser/:userId",
+        name: "Info User",
+        component: InfoUser,
+      },
+      {
+        path: "/createUser",
+        name: "Create User",
+        component: CreateUser,
+      },
+      {
+        path: "/editUser/:userId",
+        name: "Edit User",
+        component: EditUser,
       },
     ],
   },
@@ -50,9 +76,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(from);
   const store = useBaseStore();
-  console.log(store.isLoggedIn);
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!isLoggedIn() || !store.isLoggedIn) {
       next({
@@ -76,8 +100,9 @@ function isLoggedIn() {
   if (token) {
     //giải mã token
     const decoded = jwtDecode(token);
-    store.role = decoded.scope;
+    store.roles = decoded.scope.replaceAll("ROLE_","");
     store.username = decoded.sub;
+    store.fullName = decoded.name;
 
     // Kiểm tra xem token có hết hạn hay không
     const expirationDate = new Date(decoded.exp * 1000);
@@ -97,22 +122,22 @@ function isLoggedIn() {
 
 // Hàm check role
 function requireAdmin(to, from, next) {
-    const token = sessionStorage.getItem("token");
-  
-    if (!isLoggedIn()) {
-      next("/sign-in");
+  const token = sessionStorage.getItem("token");
+
+  if (!isLoggedIn()) {
+    next("/sign-in");
+  } else {
+    const decodedToken = jwtDecode(token);
+    if (!decodedToken.scope.includes("ROLE_ADMIN")) {
+      // store.dispatch("showToast", "Tài khoản không có quyền truy cập!");
+      next({
+        path: "/sign-in",
+        query: { redirect: to.fullPath },
+      });
     } else {
-      const decodedToken = jwtDecode(token);
-      if (!decodedToken.scope.includes("ROLE_ADMIN")) {
-        // store.dispatch("showToast", "Tài khoản không có quyền truy cập!");
-        next(({
-            path: "/sign-in",
-            query: { redirect: to.fullPath },
-          }));
-      } else {
-        next();
-      }
+      next();
     }
   }
+}
 
 export default router;

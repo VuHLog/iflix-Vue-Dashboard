@@ -56,6 +56,20 @@ export const base = {
     }
   },
 
+  async postFile(url, data) {
+    try {
+      console.log(data);
+      const response = await instance.post(url, data,{
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  },
+
   async put(url, data) {
     try {
       const response = await instance.put(url, data);
