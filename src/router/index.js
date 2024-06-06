@@ -22,6 +22,10 @@ import Categories from "@pages/Categories/Categories.vue";
 import CreateCategories from "@pages/Categories/Create.vue";
 import EditCategories from "@pages/Categories/Edit.vue";
 import InfoCategories from "@pages/Categories/Info.vue";
+import Movie from "@pages/Movie/Movie.vue";
+import CreateMovie from "@pages/Movie/Create.vue";
+import EditMovie from "@pages/Movie/Edit.vue";
+import InfoMovie from "@pages/Movie/Info.vue";
 
 
 const routes = [
@@ -121,9 +125,31 @@ const routes = [
         component: CreateCategories,
       },
       {
-        path: "/editCategories/:categoriesId",
+        path: "/editCategories/:movieId",
         name: "Edit Categories",
         component: EditCategories,
+      },
+
+      //table Movie
+      {
+        path: "/movies",
+        name: "Phim",
+        component: Movie
+      },
+      {
+        path: "/infoMovie/:movieId",
+        name: "Info Movie",
+        component: InfoMovie,
+      },
+      {
+        path: "/createMovie",
+        name: "Create Movie",
+        component: CreateMovie,
+      },
+      {
+        path: "/editMovie/:movieId",
+        name: "Edit Movie",
+        component: EditMovie,
       },
     ],
   },

@@ -19,14 +19,26 @@ const user = ref({
   phone: "",
   fullName: "",
   avatarUrl: "",
+  roles: [],
 });
+
+const roleAvailable = ref([]);
 
 onMounted(() => {
   proxy.$api
     .get("/admin/users/" + userId)
     .then((res) => {
       Object.assign(user.value, res.result);
+      delete user.user_roles;
       user.value.password = "";
+      user.value.roles = res.result.user_roles.map(role => role.role);
+    })
+    .catch((error) => console.log(error));
+
+    proxy.$api
+    .get("/admin/roles")
+    .then((res) => {
+      roleAvailable.value = res.result;
     })
     .catch((error) => console.log(error));
 });
@@ -171,22 +183,15 @@ async function updateUser() {
             <div class="d-flex flex-column align-start">
               <div class="mb-3">Vai trò</div>
               <div class="d-flex">
-                <input
-                  type="checkbox"
-                  id="admin"
-                  value="ADMIN"
-                  v-model="user.roles"
-                />
-                <label class="ml-2" for="admin">Admin</label>
-
-                <input
-                  class="ml-4"
-                  type="checkbox"
-                  id="user"
-                  value="USER"
-                  v-model="user.roles"
-                />
-                <label class="ml-2" for="user">User</label>
+                <template v-for="role in roleAvailable " key="role.id">
+                  <input
+                    type="checkbox"
+                    :id="role.roleName"
+                    :value="role"
+                    v-model="user.roles"
+                  />
+                  <label class="ml-2 mr-4" :for="role.roleName">{{ role.roleName }}</label>
+                </template>
               </div>
             </div>
           </div>

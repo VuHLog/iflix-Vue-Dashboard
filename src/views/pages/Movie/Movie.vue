@@ -6,10 +6,10 @@ import { inject } from "vue";
 const { proxy } = getCurrentInstance();
 const swal = inject("$swal");
 
-const users = ref([]);
+const movies = ref([]);
 const totalElements = ref(0);
 const totalPages = ref(0);
-const field = ref("username");
+const field = ref("name");
 const sort = ref("ASC");
 const pageSize = ref(0);
 const pageNumber = ref(0);
@@ -21,8 +21,8 @@ function truncateData(data) {
 }
 
 onMounted(() => {
-  proxy.$api.get("/admin/users").then((res) => {
-    users.value = res.content;
+  proxy.$api.get("/admin/movies").then((res) => {
+    movies.value = res.content;
     totalElements.value = res.totalElements;
     totalPages.value = res.totalPages;
     pageSize.value = res.pageable.pageSize;
@@ -33,7 +33,7 @@ onMounted(() => {
 const reloadData = () => {
   proxy.$api
     .get(
-      "/admin/users?pageNumber=" +
+      "/admin/movies?pageNumber=" +
         pageNumber.value +
         "&pageSize=" +
         pageSize.value +
@@ -45,7 +45,7 @@ const reloadData = () => {
         search.value
     )
     .then((res) => {
-      users.value = res.content;
+      movies.value = res.content;
       totalElements.value = res.totalElements;
       totalPages.value = res.totalPages;
       pageSize.value = res.pageable.pageSize;
@@ -53,7 +53,7 @@ const reloadData = () => {
     });
 };
 
-async function deleteUser(id) {
+async function deleteMovie(id) {
   swal
     .fire({
       title: "Bạn có chắc chắn muốn xoá không?",
@@ -66,7 +66,7 @@ async function deleteUser(id) {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        proxy.$api.delete("/admin/users/" + id, {}).then(() => {
+        proxy.$api.delete("/admin/movies/" + id, {}).then(() => {
           console.log("Xoá thành công!");
         });
         reloadData();
@@ -93,10 +93,10 @@ watch(search, () => {
     <div
       class="card-header d-flex justify-space-between align-center mb-4 font-weight-bold"
     >
-      <span class="text-h5">Bảng người dùng</span>
+      <span class="text-h5">Bảng phim</span>
       <div class="btn btn-success">
         <font-awesome-icon :icon="['fas', 'plus']" />
-        <router-link to="/createUser">
+        <router-link to="/createMovie">
           <button class="text-white" type="button">Thêm mới</button>
         </router-link>
       </div>
@@ -128,33 +128,83 @@ watch(search, () => {
               <th
                 class="text-start text-uppercase text-head-table text-xxs font-weight-bolder opacity-7"
               >
-                Họ và tên
+                Tên phim
+              </th>
+              <th
+                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder opacity-7"
+              >
+                Poster
               </th>
               <th
                 class="text-start text-uppercase text-head-table text-xxs font-weight-bolder opacity-7 ps-2"
               >
-                Tên đăng nhập
+                Slug
               </th>
               <th
                 class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
               >
-                Mật khẩu
+                Nội dung
               </th>
               <th
                 class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
               >
-                Email
+                Thời lượng (phút)
               </th>
               <th
                 class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
               >
-                Số điện thoại
+                Số tập
               </th>
               <th
                 class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
               >
-                Vai trò
+                Trạng thái
               </th>
+              <th
+                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
+              >
+                Ngôn ngữ
+              </th>
+              <th
+                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
+              >
+                Năm phát hành
+              </th>
+              <th
+                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
+              >
+                Lượt xem
+              </th>
+              <th
+                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
+              >
+                Danh mục
+              </th>
+              <th
+                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
+              >
+                Thể loại
+              </th>
+              <th
+                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
+              >
+                Diễn viên
+              </th>
+              <th
+                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
+              >
+                Đạo diễn
+              </th>
+              <th
+                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
+              >
+                Quốc gia
+              </th>
+              <!-- <th
+                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
+              >
+                Đánh giá
+              </th> -->
               <th
                 class="text-start text-uppercase text-head-table text-xxs font-weight-bolder"
               >
@@ -163,7 +213,7 @@ watch(search, () => {
             </tr>
           </thead>
           <tbody>
-            <template v-for="(user, index) in users" :key="user.id">
+            <template v-for="(movie, index) in movies" :key="movie.id">
               <tr>
                 <td>
                   <div class="d-flex px-2 py-1">
@@ -171,44 +221,73 @@ watch(search, () => {
                   </div>
                 </td>
                 <td class="align-middle text-start text-sm">
-                  <div class="d-flex align-center px-2 py-1 row">
-                    <div class="col-md-3">
+                    <div
+                      class="d-flex flex-column justify-content-start col-md-8"
+                    >
+                      <h6 class="mb-0 text-sm">{{ movie.name }}</h6>
+                    </div>
+                </td>
+                <td class="align-middle text-start text-sm">
+                  <div class="">
                       <img
-                        :src="user.avatarUrl"
-                        class="me-3 img-thumbnail avatar-user"
-                        alt="user1"
+                        :src="movie.imageUrl"
+                        class="me-3 img-thumbnail poster"
+                        alt="ảnh phim"
                       />
                     </div>
-                    <div
-                      class="d-flex flex-column justify-content-start col-md-9"
-                    >
-                      <h6 class="mb-0 text-sm">{{ user.fullName }}</h6>
-                    </div>
-                  </div>
                 </td>
                 <td class="align-middle text-start text-sm">
                   <p class="text-xs text-body-table mb-0 text-start">
-                    {{ user.username }}
+                    {{ movie.slug }}
                   </p>
                 </td>
                 <td class="align-middle text-start text-sm">
-                  <span class="">{{ truncateData(user.password) }}</span>
+                  <span class="">{{ truncateData(movie.description) }}</span>
                 </td>
                 <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ user.email }}</span>
+                  <span class="text-body-table text-xs">{{ movie.duration }}</span>
                 </td>
                 <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ user.phone }}</span>
+                  <span class="text-body-table text-xs">{{ movie.episodeCurrent +" / " + movie.episodeTotal }}</span>
                 </td>
                 <td class="align-middle text-start">
-                  <template v-for="role in user.user_roles">
-                    <p class="text-body-table text-xs mb-0 mr-3">{{ role.role.roleName }}</p>
+                  <span class="text-body-table text-xs">{{ movie.status }}</span>
+                </td>
+                <td class="align-middle text-start">
+                  <span class="text-body-table text-xs">{{ movie.lang }}</span>
+                </td>
+                <td class="align-middle text-start">
+                  <span class="text-body-table text-xs">{{ movie.releaseYear }}</span>
+                </td>
+                <td class="align-middle text-start">
+                  <span class="text-body-table text-xs">{{ movie.numView }}</span>
+                </td>
+                <td class="align-middle text-start">
+                  <span class="text-body-table text-xs">{{ movie.categories.name }}</span>
+                </td>
+                <td class="align-middle text-start">
+                  <template v-for="movie_genre in movie.movie_genres">
+                    <p class="text-body-table text-xs mb-0 mr-3">{{ movie_genre.genre.name }}</p>
                   </template>
                 </td>
                 <td class="align-middle text-start">
+                  <template v-for="movie_actor in movie.movie_actors">
+                    <p class="text-body-table text-xs mb-0 mr-3">{{ movie_actor.actor.name }}</p>
+                  </template>
+                </td>
+                <td class="align-middle text-start">
+                  <span class="text-body-table text-xs">{{ movie.director.name }}</span>
+                </td>
+                <td class="align-middle text-start">
+                  <span class="text-body-table text-xs">{{ movie.country.name }}</span>
+                </td>
+                <!-- <td class="align-middle text-start">
+                  <span class="text-body-table text-xs">{{ movie.rate.rate }}</span>
+                </td> -->
+                <td class="align-middle text-start">
                   <div class="d-flex">
                     <div class="icon-edit">
-                      <router-link :to="'/editUser/' + user.id">
+                      <router-link :to="'/editMovie/' + movie.id">
                         <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                       </router-link>
                       <v-tooltip activator="parent" location="bottom">
@@ -216,7 +295,7 @@ watch(search, () => {
                       </v-tooltip>
                     </div>
                     <div class="icon-delete ml-4">
-                      <div class="text-red" @click="deleteUser(user.id)">
+                      <div class="text-red" @click="deleteMovie(movie.id)">
                         <font-awesome-icon :icon="['fas', 'trash-can']" />
                       </div>
                       <v-tooltip activator="parent" location="bottom">
@@ -226,7 +305,7 @@ watch(search, () => {
                     <div class="icon-delete ml-4">
                       <router-link
                         class="text-info"
-                        :to="'/infoUser/' + user.id"
+                        :to="'/infoMovie/' + movie.id"
                       >
                         <font-awesome-icon :icon="['fas', 'info']" />
                       </router-link>
@@ -268,7 +347,8 @@ watch(search, () => {
 </template>
 
 <style lang="scss" scoped>
-.avatar-user {
-  height: 40px;
+.poster {
+  object-fit: cover;
+  height: 80px;
 }
 </style>

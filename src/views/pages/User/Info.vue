@@ -15,6 +15,7 @@ const user = ref({
   phone: "",
   fullName: "",
   avatarUrl: "",
+  roles: [],
 });
 
 onMounted(() => {
@@ -22,6 +23,7 @@ onMounted(() => {
     .get("/admin/users/" + userId)
     .then((res) => {
       Object.assign(user.value, res.result);
+      user.value.roles = res.result.user_roles.map(role => role.role);
     })
     .catch((error) => console.log(error));
 });
@@ -104,7 +106,7 @@ function returnTable() {
             <div class="d-flex">
               <template v-for="role in user.roles">
                 <span class="text-body-table text-xs mb-0 mr-3">{{
-                  role
+                  role.roleName
                 }}</span>
               </template>
             </div>

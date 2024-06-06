@@ -59,7 +59,7 @@ const minimizeSidebar = () => {
         </router-link>
       </li>
 
-      <li class="cursor-pointer d-lg-none text-white ml-3 p-2" @click="minimizeSidebar">
+      <li class="cursor-pointer text-white ml-3 p-2" @click="minimizeSidebar">
         <div class="sidenav-toggler-inner">
           <font-awesome-icon :icon="['fas', 'list']" />
         </div>
