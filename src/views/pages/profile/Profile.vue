@@ -1,15 +1,16 @@
 <script setup>
 import { ref, getCurrentInstance, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import {useBaseStore} from "@/store/index.js"
+import { useBaseStore } from "@/store/index.js";
+import { inject } from "vue";
 
 const { proxy } = getCurrentInstance();
+const swal = inject("$swal");
 const store = useBaseStore();
 
 const router = useRouter();
 
 const route = useRoute();
-const userId = route.params.userId;
 const errorMsg = ref("");
 const file = ref(null);
 
@@ -23,19 +24,20 @@ const user = ref({
 });
 
 const roleAvailable = ref([]);
+const userId = ref("");
 
-onMounted(() => {
-  proxy.$api
-    .get("/admin/users/" + userId)
+onMounted(async () => {
+  await proxy.$api
+    .get("/admin/users/myInfo")
     .then((res) => {
       Object.assign(user.value, res.result);
       delete user.user_roles;
-      user.value.password = "";
-      user.value.roles = res.result.user_roles.map(role => role.role);
+      user.value.roles = res.result.user_roles.map((role) => role.role);
+      userId.value = res.result.id;
     })
     .catch((error) => console.log(error));
 
-    proxy.$api
+  await proxy.$api
     .get("/admin/roles")
     .then((res) => {
       roleAvailable.value = res.result;
@@ -93,13 +95,15 @@ async function updateUser() {
   }
 
   await proxy.$api
-    .put("/admin/users/" + userId, user.value)
+    .put("/admin/users/" + userId.value, user.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;
       } else {
-        console.log("Sửa thành công!");
-        router.push("/users");
+        swal.fire({
+          title: "Sửa thành công",
+          icon: "success",
+        });
       }
     })
     .catch((error) => console.log(error));
@@ -114,7 +118,7 @@ async function updateUser() {
       </div>
     </div>
     <div class="card-body">
-      <p class="text-uppercase text-sm">Thông tin người dùng</p>
+      <p class="text-uppercase text-sm">Thông tin tài khoản của bạn</p>
       <form
         class="mt-8 space-y-6 mb-4"
         enctype="multipart/form-data"
@@ -183,18 +187,30 @@ async function updateUser() {
             <div class="d-flex flex-column align-start">
               <div class="mb-3">Vai trò</div>
               <div class="d-flex">
-                <template v-for="role in roleAvailable " :key="role.id">
+                <template v-for="role in roleAvailable" :key="role.id">
                   <input
                     type="checkbox"
                     :id="role.roleName"
                     :value="role"
                     v-model="user.roles"
                   />
-                  <label class="ml-2 mr-4" :for="role.roleName">{{ role.roleName }}</label>
+                  <label class="ml-2 mr-4" :for="role.roleName">{{
+                    role.roleName
+                  }}</label>
                 </template>
               </div>
             </div>
           </div>
+          <div class="col-md-6 text-start mb-4">
+          <label for="avatar" class="form-label">Ảnh đại diện</label>
+          <div>
+            <img
+              :src="user.avatarUrl"
+              class="me-3 img-thumbnail avatar-user"
+              alt="user1"
+            />
+          </div>
+        </div>
           <div class="col-md-6 mb-3 text-start">
             <label for="formFile" class="form-label">Chọn ảnh</label>
             <input
@@ -218,9 +234,6 @@ async function updateUser() {
           >
             Lưu
           </button>
-          <span class="text-secondary cursor-pointer" @click="returnTable()">
-            Quay lại
-          </span>
         </div>
       </form>
     </div>
@@ -230,5 +243,8 @@ async function updateUser() {
 <style lang="scss" scoped>
 .form-control {
   box-shadow: none;
+}
+.avatar-user{
+    height: 120px;
 }
 </style>

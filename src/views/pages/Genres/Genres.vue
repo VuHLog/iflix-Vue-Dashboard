@@ -59,9 +59,9 @@ async function deleteGenres(id) {
       confirmButtonText: "Xoá",
       cancelButtonText: "Huỷ bỏ",
     })
-    .then((result) => {
+    .then(async (result) => {
       if (result.isConfirmed) {
-        proxy.$api.delete("/admin/genres/" + id, {}).then(() => {
+        await proxy.$api.delete("/admin/genres/" + id, {}).then(() => {
           console.log("Xoá thành công!");
         });
         reloadData();

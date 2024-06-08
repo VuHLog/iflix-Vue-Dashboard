@@ -59,9 +59,9 @@ async function deleteCountries(id) {
       confirmButtonText: "Xoá",
       cancelButtonText: "Huỷ bỏ",
     })
-    .then((result) => {
-      if (result.isConfirmed) {
-        proxy.$api.delete("/admin/countries/" + id, {}).then(() => {
+    .then(async (result) => {
+      if(result.isConfirmed) {
+        await proxy.$api.delete("/admin/countries/" + id, {}).then(() => {
           console.log("Xoá thành công!");
         });
         reloadData();

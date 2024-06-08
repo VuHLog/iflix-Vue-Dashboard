@@ -178,7 +178,7 @@ async function createUser() {
             <div class="d-flex flex-column align-start">
               <div class="mb-3">Vai trò</div>
               <div class="d-flex">
-                <template v-for="role in roleAvailable " key="role.id">
+                <template v-for="role in roleAvailable " :key="role.id">
                   <input
                     type="checkbox"
                     :id="role.roleName"

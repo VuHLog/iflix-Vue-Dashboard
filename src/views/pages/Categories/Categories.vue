@@ -59,9 +59,9 @@ async function deleteCategories(id) {
       confirmButtonText: "Xoá",
       cancelButtonText: "Huỷ bỏ",
     })
-    .then((result) => {
+    .then(async (result) => {
       if (result.isConfirmed) {
-        proxy.$api.delete("/admin/categories/" + id, {}).then(() => {
+        await proxy.$api.delete("/admin/categories/" + id, {}).then(() => {
           console.log("Xoá thành công!");
         });
         reloadData();

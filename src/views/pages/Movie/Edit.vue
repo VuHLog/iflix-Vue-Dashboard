@@ -1,7 +1,7 @@
 <script setup>
 import { ref, getCurrentInstance, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { useBaseStore } from "@/store/index.js";
+import {useBaseStore} from "@/store/index.js"
 import VAutoComplete from "@components/VAutoComplete.vue"
 
 const { proxy } = getCurrentInstance();
@@ -9,6 +9,8 @@ const store = useBaseStore();
 
 const router = useRouter();
 
+const route = useRoute();
+const movieId = route.params.movieId;
 const errorMsg = ref("");
 
 const movie = ref({
@@ -27,7 +29,7 @@ const movie = ref({
   genres: [],
   country: {},
   actors: [],
-  director: {},
+  director:{},
 });
 
 const categoriesAvailable = ref([]);
@@ -38,13 +40,26 @@ const directorsAvailable = ref([]);
 
 onMounted(() => {
   proxy.$api
+    .get("/admin/movies/" + movieId)
+    .then((res) => {
+      Object.assign(movie.value, res.result);
+      
+      delete movie.movie_genres;
+      delete movie.movie_actors;
+      movie.value.genres = res.result.movie_genres.map(movie_genre => movie_genre.genre);
+      movie.value.actors = res.result.movie_actors.map(movie_actor => movie_actor.actor);
+
+    })
+    .catch((error) => console.log(error));
+
+    proxy.$api
     .get("/admin/categories")
     .then((res) => {
       categoriesAvailable.value = res.content;
     })
     .catch((error) => console.log(error));
 
-  proxy.$api
+    proxy.$api
     .get("/admin/genres")
     .then((res) => {
       genresAvailable.value = res.content;
@@ -97,7 +112,7 @@ function isEmtyMovie() {
   );
 }
 
-async function createMovie() {
+async function updateMovie() {
   errorMsg.value = "";
   if (isEmtyMovie()) {
     errorMsg.value = "Phải nhập đầy đủ các trường";
@@ -120,12 +135,12 @@ async function createMovie() {
   }
 
   await proxy.$api
-    .post("/admin/movies", movie.value)
+    .put("/admin/movies/" + movieId, movie.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;
       } else {
-        console.log("Thêm mới thành công!");
+        console.log("Sửa thành công!");
         router.push("/movies");
       }
     })
@@ -137,7 +152,7 @@ async function createMovie() {
   <div class="card mt-4">
     <div class="card-header pb-0">
       <div class="d-flex align-items-center">
-        <p class="mb-0">Thêm mới</p>
+        <p class="mb-0">Sửa</p>
       </div>
     </div>
     <div class="card-body">
@@ -146,7 +161,7 @@ async function createMovie() {
         class="mt-8 space-y-6 mb-4"
         enctype="multipart/form-data"
         method="POST"
-        @submit.prevent="createMovie"
+        @submit.prevent="updateMovie"
       >
         <div class="row">
           <div class="col-md-6 text-start mb-4">
@@ -325,7 +340,7 @@ async function createMovie() {
             type="submit"
             class="btn btn-submit bg-gradient-submit py-3 mr-3"
           >
-            Thêm mới
+            Sửa
           </button>
           <span class="text-secondary cursor-pointer" @click="returnTable()">
             Quay lại
@@ -339,10 +354,5 @@ async function createMovie() {
 <style lang="scss" scoped>
 .form-control {
   box-shadow: none;
-}
-
-.limited-select {
-  max-height: 20px; 
-  overflow-y: auto; 
 }
 </style>

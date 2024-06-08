@@ -26,6 +26,7 @@ import Movie from "@pages/Movie/Movie.vue";
 import CreateMovie from "@pages/Movie/Create.vue";
 import EditMovie from "@pages/Movie/Edit.vue";
 import InfoMovie from "@pages/Movie/Info.vue";
+import Profile from "@pages/profile/Profile.vue";
 
 
 const routes = [
@@ -150,6 +151,13 @@ const routes = [
         path: "/editMovie/:movieId",
         name: "Edit Movie",
         component: EditMovie,
+      },
+
+      //Profile
+      {
+        path: "/profile",
+        name: "Profile",
+        component: Profile,
       },
     ],
   },

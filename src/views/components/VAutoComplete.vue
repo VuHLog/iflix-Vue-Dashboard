@@ -1,6 +1,6 @@
   
 <script setup>
-import { watch } from "vue";
+import { onMounted, watch } from "vue";
 import { ref } from "vue";
 const emit = defineEmits(["update:modelValue"]);
 
@@ -24,8 +24,13 @@ const props = defineProps({
 
 const data = ref([]);
 
+
 const isUpdating = ref(false);
 const timeout = ref(null);
+
+watch(() => props.modelValue, (newValue) => {
+  data.value = newValue;
+});
 
 watch(isUpdating, (val) => {
   clearTimeout(timeout.value);
@@ -64,6 +69,7 @@ watch(data, (val) => {
               chips
               closable-chips
               multiple
+              no-data-text="Không tìm thấy"
             >
               <template v-slot:chip="{ props, item }">
                 <v-chip v-bind="props" :text="item.raw.name"></v-chip>

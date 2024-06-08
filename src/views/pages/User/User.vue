@@ -64,9 +64,9 @@ async function deleteUser(id) {
       confirmButtonText: "Xoá",
       cancelButtonText: "Huỷ bỏ",
     })
-    .then((result) => {
+    .then(async (result) => {
       if (result.isConfirmed) {
-        proxy.$api.delete("/admin/users/" + id, {}).then(() => {
+        await proxy.$api.delete("/admin/users/" + id, {}).then(() => {
           console.log("Xoá thành công!");
         });
         reloadData();
