@@ -2,7 +2,7 @@
 import { ref, getCurrentInstance, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useBaseStore } from "@/store/index.js";
-import VAutoComplete from "@components/VAutoComplete.vue"
+import VAutoComplete from "@components/VAutoComplete.vue";
 
 const { proxy } = getCurrentInstance();
 const store = useBaseStore();
@@ -51,7 +51,7 @@ onMounted(() => {
     })
     .catch((error) => console.log(error));
 
-    proxy.$api
+  proxy.$api
     .get("/admin/countries")
     .then((res) => {
       countriesAvailable.value = res.content;
@@ -84,7 +84,7 @@ function isEmtyMovie() {
     movie.value.description === "" ||
     movie.value.duration === null ||
     movie.value.episodeCurrent === null ||
-    // || movie.value.episodeTotal=== null
+    movie.value.episodeTotal === null ||
     movie.value.status === "" ||
     movie.value.lang === "" ||
     movie.value.releaseYear === null ||
@@ -110,10 +110,10 @@ async function createMovie() {
     errorMsg.value = "Tập hiện tại phải nhập là số";
     return;
   }
-  // if (!/^[1-9]\d*$/.test(movie.value.episodeTotal)) {
-  //   errorMsg.value = "Tổng số tập phải nhập là số";
-  //   return;
-  // }
+  if (!/^[1-9]\d*$/.test(movie.value.episodeTotal)) {
+    errorMsg.value = "Tổng số tập phải nhập là số";
+    return;
+  }
   if (!/^[1-9]\d*$/.test(movie.value.releaseYear)) {
     errorMsg.value = "Năm phát hành phải nhập là số";
     return;
@@ -205,7 +205,7 @@ async function createMovie() {
               placeholder="Tập hiện tại"
             />
           </div>
-          <!-- <div class="col-md-6 text-start mb-4">
+          <div class="col-md-6 text-start mb-4">
             <label for="episodeTotal-text-input" class="form-label"
               >Tổng số tập</label
             >
@@ -216,7 +216,7 @@ async function createMovie() {
               type="text"
               placeholder="Tổng số tập"
             />
-          </div> -->
+          </div>
           <div class="col-md-6 text-start mb-4">
             <label for="status-text-input" class="form-label">Trạng thái</label>
             <input
@@ -283,9 +283,16 @@ async function createMovie() {
             <div class="d-flex flex-column align-start">
               <div class="mb-2">Quốc gia</div>
               <div class="d-flex">
-                <select v-model="movie.country" class="form-select" aria-label="Default select example">
+                <select
+                  v-model="movie.country"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
                   <option disabled value="">Chọn quốc gia</option>
-                  <template v-for="country in countriesAvailable" key="country.id">
+                  <template
+                    v-for="country in countriesAvailable"
+                    key="country.id"
+                  >
                     <option :value="country">{{ country.name }}</option>
                   </template>
                 </select>
@@ -296,9 +303,16 @@ async function createMovie() {
             <div class="d-flex flex-column align-start">
               <div class="mb-2">Đạo diễn</div>
               <div class="d-flex">
-                <select v-model="movie.director" class="form-select" aria-label="Default select example">
+                <select
+                  v-model="movie.director"
+                  class="form-select"
+                  aria-label="Default select example"
+                >
                   <option disabled value="">Chọn quốc gia</option>
-                  <template v-for="director in directorsAvailable" key="country.id">
+                  <template
+                    v-for="director in directorsAvailable"
+                    key="country.id"
+                  >
                     <option :value="director">{{ director.name }}</option>
                   </template>
                 </select>
@@ -306,12 +320,20 @@ async function createMovie() {
             </div>
           </div>
           <div class="btn-group col-md-6 mb-4">
-            <v-auto-complete v-model="movie.genres" :listItem="genresAvailable" label="Chọn thể loại">
+            <v-auto-complete
+              v-model="movie.genres"
+              :listItem="genresAvailable"
+              label="Chọn thể loại"
+            >
             </v-auto-complete>
           </div>
 
           <div class="btn-group col-md-6 mb-4">
-            <v-auto-complete v-model="movie.actors" :listItem="actorsAvailable" label="Chọn diễn viên">
+            <v-auto-complete
+              v-model="movie.actors"
+              :listItem="actorsAvailable"
+              label="Chọn diễn viên"
+            >
             </v-auto-complete>
           </div>
         </div>
@@ -342,7 +364,7 @@ async function createMovie() {
 }
 
 .limited-select {
-  max-height: 20px; 
-  overflow-y: auto; 
+  max-height: 20px;
+  overflow-y: auto;
 }
 </style>

@@ -23,14 +23,14 @@ const user = ref({
 
 const roleAvailable = ref([]);
 
-onMounted(()=>{
+onMounted(() => {
   proxy.$api
     .get("/admin/roles")
     .then((res) => {
       roleAvailable.value = res.result;
     })
     .catch((error) => console.log(error));
-})
+});
 
 function returnTable() {
   router.push("/users");
@@ -178,14 +178,16 @@ async function createUser() {
             <div class="d-flex flex-column align-start">
               <div class="mb-3">Vai trò</div>
               <div class="d-flex">
-                <template v-for="role in roleAvailable " :key="role.id">
+                <template v-for="role in roleAvailable" :key="role.id">
                   <input
                     type="checkbox"
                     :id="role.roleName"
                     :value="role"
                     v-model="user.roles"
                   />
-                  <label class="ml-2 mr-4" :for="role.roleName">{{ role.roleName }}</label>
+                  <label class="ml-2 mr-4" :for="role.roleName">{{
+                    role.roleName
+                  }}</label>
                 </template>
               </div>
             </div>

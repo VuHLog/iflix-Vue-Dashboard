@@ -26,6 +26,10 @@ import Movie from "@pages/Movie/Movie.vue";
 import CreateMovie from "@pages/Movie/Create.vue";
 import EditMovie from "@pages/Movie/Edit.vue";
 import InfoMovie from "@pages/Movie/Info.vue";
+import Episode from "@pages/Episodes/Episode.vue";
+import CreateEpisode from "@pages/Episodes/Create.vue";
+import EditEpisode from "@pages/Episodes/Edit.vue";
+import InfoEpisode from "@pages/Episodes/Info.vue";
 import Profile from "@pages/profile/Profile.vue";
 
 
@@ -158,6 +162,24 @@ const routes = [
         path: "/profile",
         name: "Profile",
         component: Profile,
+      },
+
+
+      //table Episode
+      {
+        path: "/episodes/:movieId",
+        name: "Episode",
+        component: Episode
+      },
+      {
+        path: "/:movieId/createEpisode",
+        name: "Create Episode",
+        component: CreateEpisode,
+      },
+      {
+        path: "/editEpisode/:episodeId",
+        name: "Edit Episode",
+        component: EditEpisode,
       },
     ],
   },

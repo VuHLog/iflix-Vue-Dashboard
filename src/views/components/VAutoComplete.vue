@@ -19,6 +19,10 @@ const props = defineProps({
     type: String,
     default: "",
     required: true,
+  },
+  isMultiple:{
+    type: Boolean,
+    default: true
   }
 });
 
@@ -68,7 +72,7 @@ watch(data, (val) => {
               :label="props.label"
               chips
               closable-chips
-              multiple
+              :multiple="false"
               no-data-text="Không tìm thấy"
             >
               <template v-slot:chip="{ props, item }">

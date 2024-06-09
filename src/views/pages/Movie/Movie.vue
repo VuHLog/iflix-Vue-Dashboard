@@ -221,20 +221,20 @@ watch(search, () => {
                   </div>
                 </td>
                 <td class="align-middle text-start text-sm">
-                    <div
-                      class="d-flex flex-column justify-content-start col-md-8"
-                    >
-                      <h6 class="mb-0 text-sm">{{ movie.name }}</h6>
-                    </div>
+                  <div
+                    class="d-flex flex-column justify-content-start col-md-8"
+                  >
+                    <h6 class="mb-0 text-sm">{{ movie.name }}</h6>
+                  </div>
                 </td>
                 <td class="align-middle text-start text-sm">
                   <div class="">
-                      <img
-                        :src="movie.imageUrl"
-                        class="me-3 img-thumbnail poster"
-                        alt="ảnh phim"
-                      />
-                    </div>
+                    <img
+                      :src="movie.imageUrl"
+                      class="me-3 img-thumbnail poster"
+                      alt="ảnh phim"
+                    />
+                  </div>
                 </td>
                 <td class="align-middle text-start text-sm">
                   <p class="text-xs text-body-table mb-0 text-start">
@@ -245,48 +245,76 @@ watch(search, () => {
                   <span class="">{{ truncateData(movie.description) }}</span>
                 </td>
                 <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ movie.duration }}</span>
+                  <span class="text-body-table text-xs">{{
+                    movie.duration
+                  }}</span>
                 </td>
                 <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ movie.episodeCurrent +" / " + movie.episodeTotal }}</span>
+                  <span class="text-body-table text-xs">{{
+                    movie.episodeCurrent + " / " + movie.episodeTotal
+                  }}</span>
                 </td>
                 <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ movie.status }}</span>
+                  <span class="text-body-table text-xs">{{
+                    movie.status
+                  }}</span>
                 </td>
                 <td class="align-middle text-start">
                   <span class="text-body-table text-xs">{{ movie.lang }}</span>
                 </td>
                 <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ movie.releaseYear }}</span>
+                  <span class="text-body-table text-xs">{{
+                    movie.releaseYear
+                  }}</span>
                 </td>
                 <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ movie.numView }}</span>
+                  <span class="text-body-table text-xs">{{
+                    movie.numView
+                  }}</span>
                 </td>
                 <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ movie.categories.name }}</span>
+                  <span class="text-body-table text-xs">{{
+                    movie.categories.name
+                  }}</span>
                 </td>
                 <td class="align-middle text-start">
                   <template v-for="movie_genre in movie.movie_genres">
-                    <p class="text-body-table text-xs mb-0 mr-3">{{ movie_genre.genre.name }}</p>
+                    <p class="text-body-table text-xs mb-0 mr-3">
+                      {{ movie_genre.genre.name }}
+                    </p>
                   </template>
                 </td>
                 <td class="align-middle text-start">
                   <template v-for="movie_actor in movie.movie_actors">
-                    <p class="text-body-table text-xs mb-0 mr-3">{{ movie_actor.actor.name }}</p>
+                    <p class="text-body-table text-xs mb-0 mr-3">
+                      {{ movie_actor.actor.name }}
+                    </p>
                   </template>
                 </td>
                 <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ movie.director.name }}</span>
+                  <span class="text-body-table text-xs">{{
+                    movie.director.name
+                  }}</span>
                 </td>
                 <td class="align-middle text-start">
-                  <span class="text-body-table text-xs">{{ movie.country.name }}</span>
+                  <span class="text-body-table text-xs">{{
+                    movie.country.name
+                  }}</span>
                 </td>
                 <!-- <td class="align-middle text-start">
                   <span class="text-body-table text-xs">{{ movie.rate.rate }}</span>
                 </td> -->
                 <td class="align-middle text-start">
                   <div class="d-flex">
-                    <div class="icon-edit">
+                    <div>
+                      <router-link :to="'/episodes/' + movie.id">
+                        <font-awesome-icon :icon="['fas', 'plus']" />
+                      </router-link>
+                      <v-tooltip activator="parent" location="bottom">
+                        Thêm tập
+                      </v-tooltip>
+                    </div>
+                    <div class="icon-edit ml-4">
                       <router-link :to="'/editMovie/' + movie.id">
                         <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                       </router-link>
