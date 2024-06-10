@@ -24,7 +24,7 @@ const episode = ref({
 
 onMounted(async() => {
   await proxy.$api
-    .get("/admin/episodes/episode/" + episodeId)
+    .get("/api/episodes/episode/" + episodeId)
     .then((res) => {
       Object.assign(episode.value, res.result);
     })
@@ -54,7 +54,7 @@ async function updateEpisode() {
   }
 
   await proxy.$api
-    .put("/admin/episodes/" + episodeId, episode.value)
+    .put("/api/episodes/" + episodeId, episode.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;

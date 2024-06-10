@@ -31,7 +31,7 @@ const movie = ref({
 
 onMounted(() => {
   proxy.$api
-    .get("/admin/movies/" + movieId)
+    .get("/api/movies/" + movieId)
     .then((res) => {
       Object.assign(movie.value, res.result);
       delete movie.movie_genres;

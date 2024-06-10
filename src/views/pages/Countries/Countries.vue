@@ -16,7 +16,7 @@ const pageNumber = ref(0);
 const search = ref("");
 
 onMounted(() => {
-  proxy.$api.get("/admin/countries").then((res) => {
+  proxy.$api.get("/api/countries").then((res) => {
     countries.value = res.content;
     totalElements.value = res.totalElements;
     totalPages.value = res.totalPages;
@@ -28,7 +28,7 @@ onMounted(() => {
 const reloadData = () => {
   proxy.$api
     .get(
-      "/admin/countries?pageNumber=" +
+      "/api/countries?pageNumber=" +
         pageNumber.value +
         "&pageSize=" +
         pageSize.value +
@@ -61,7 +61,7 @@ async function deleteCountries(id) {
     })
     .then(async (result) => {
       if(result.isConfirmed) {
-        await proxy.$api.delete("/admin/countries/" + id, {}).then(() => {
+        await proxy.$api.delete("/api/countries/" + id, {}).then(() => {
           console.log("Xoá thành công!");
         });
         reloadData();

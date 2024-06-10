@@ -25,7 +25,7 @@ const roleAvailable = ref([]);
 
 onMounted(() => {
   proxy.$api
-    .get("/admin/roles")
+    .get("/api/roles")
     .then((res) => {
       roleAvailable.value = res.result;
     })
@@ -89,7 +89,7 @@ async function createUser() {
   }
 
   await proxy.$api
-    .post("/admin/users", user.value)
+    .post("/api/users", user.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;

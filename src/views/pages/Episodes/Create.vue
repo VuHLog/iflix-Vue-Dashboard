@@ -25,7 +25,7 @@ const episode = ref({
 
 onMounted(() => {
   proxy.$api
-    .get("/admin/movies/" + movieId)
+    .get("/api/movies/" + movieId)
     .then((res) => {
       episode.value.movie = res.result;
       listEpisodeNumbers.value = Array.from(
@@ -59,7 +59,7 @@ async function createEpisode() {
   }
 
   await proxy.$api
-    .post("/admin/episodes", episode.value)
+    .post("/api/episodes", episode.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;

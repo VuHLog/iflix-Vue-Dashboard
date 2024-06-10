@@ -38,7 +38,7 @@ async function createCountries() {
   }
 
   await proxy.$api
-    .post("/admin/countries", countries.value)
+    .post("/api/countries", countries.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;

@@ -16,7 +16,7 @@ const categories = ref({
 
 onMounted(() => {
   proxy.$api
-    .get("/admin/categories/" + categoriesId)
+    .get("/api/categories/" + categoriesId)
     .then((res) => {
       Object.assign(categories.value, res.result);
     })

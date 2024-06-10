@@ -28,7 +28,7 @@ const userId = ref("");
 
 onMounted(async () => {
   await proxy.$api
-    .get("/admin/users/myInfo")
+    .get("/api/users/myInfo")
     .then((res) => {
       Object.assign(user.value, res.result);
       delete user.user_roles;
@@ -38,7 +38,7 @@ onMounted(async () => {
     .catch((error) => console.log(error));
 
   await proxy.$api
-    .get("/admin/roles")
+    .get("/api/roles")
     .then((res) => {
       roleAvailable.value = res.result;
     })
@@ -95,7 +95,7 @@ async function updateUser() {
   }
 
   await proxy.$api
-    .put("/admin/users/" + userId.value, user.value)
+    .put("/api/users/" + userId.value, user.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;

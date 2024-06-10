@@ -1,20 +1,8 @@
 <script setup>
-import { computed } from "vue";
-import { useBaseStore } from "@/store/index.js";
-import Sidenav from "@layouts/sidenav/index.vue";
-import Navbar from "@layouts/navbar/Navbar.vue";
-import Footer from "@layouts/Footer.vue";
-
-const store = useBaseStore();
-const showSidenav = computed(() => store.showSidenav);
-const showNavbar = computed(() => store.showNavbar);
-const showFooter = computed(() => store.showFooter);
-const showBackground = computed(() => store.showBackground);
 </script>
 
 <template>
-
-        <router-view></router-view>
+  <router-view></router-view>
 </template>
 
 <style lang="scss">

@@ -130,7 +130,7 @@ const routes = [
         component: CreateCategories,
       },
       {
-        path: "/editCategories/:movieId",
+        path: "/editCategories/:categoriesId",
         name: "Edit Categories",
         component: EditCategories,
       },
@@ -194,6 +194,10 @@ const routes = [
         component: Signin,
       },
     ],
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    component: Dashboard,
   },
 ];
 

@@ -38,7 +38,7 @@ async function createCategories() {
   }
 
   await proxy.$api
-    .post("/admin/categories", categories.value)
+    .post("/api/categories", categories.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;

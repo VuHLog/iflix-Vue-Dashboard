@@ -16,7 +16,7 @@ const countries = ref({
 
 onMounted(() => {
   proxy.$api
-    .get("/admin/countries/" + countriesId)
+    .get("/api/countries/" + countriesId)
     .then((res) => {
       Object.assign(countries.value, res.result);
     })

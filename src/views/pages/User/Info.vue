@@ -20,7 +20,7 @@ const user = ref({
 
 onMounted(() => {
   proxy.$api
-    .get("/admin/users/" + userId)
+    .get("/api/users/" + userId)
     .then((res) => {
       Object.assign(user.value, res.result);
       user.value.roles = res.result.user_roles.map(role => role.role);

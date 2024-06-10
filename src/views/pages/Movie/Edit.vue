@@ -8,8 +8,7 @@ const { proxy } = getCurrentInstance();
 const store = useBaseStore();
 
 const router = useRouter();
-
-c
+const route = useRoute();
 const movieId = route.params.movieId;
 const errorMsg = ref("");
 
@@ -40,7 +39,7 @@ const directorsAvailable = ref([]);
 
 onMounted(() => {
   proxy.$api
-    .get("/admin/movies/" + movieId)
+    .get("/api/movies/" + movieId)
     .then((res) => {
       Object.assign(movie.value, res.result);
 
@@ -56,35 +55,35 @@ onMounted(() => {
     .catch((error) => console.log(error));
 
   proxy.$api
-    .get("/admin/categories")
+    .get("/api/categories")
     .then((res) => {
       categoriesAvailable.value = res.content;
     })
     .catch((error) => console.log(error));
 
   proxy.$api
-    .get("/admin/genres")
+    .get("/api/genres")
     .then((res) => {
       genresAvailable.value = res.content;
     })
     .catch((error) => console.log(error));
 
   proxy.$api
-    .get("/admin/countries")
+    .get("/api/countries")
     .then((res) => {
       countriesAvailable.value = res.content;
     })
     .catch((error) => console.log(error));
 
   proxy.$api
-    .get("/admin/actors")
+    .get("/api/actors")
     .then((res) => {
       actorsAvailable.value = res.result;
     })
     .catch((error) => console.log(error));
 
   proxy.$api
-    .get("/admin/directors")
+    .get("/api/directors")
     .then((res) => {
       directorsAvailable.value = res.result;
     })
@@ -138,7 +137,7 @@ async function updateMovie() {
   }
 
   await proxy.$api
-    .put("/admin/movies/" + movieId, movie.value)
+    .put("/api/movies/" + movieId, movie.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;

@@ -16,7 +16,7 @@ const pageNumber = ref(0);
 const search = ref("");
 
 onMounted(() => {
-  proxy.$api.get("/admin/genres").then((res) => {
+  proxy.$api.get("/api/genres").then((res) => {
     genres.value = res.content;
     totalElements.value = res.totalElements;
     totalPages.value = res.totalPages;
@@ -28,7 +28,7 @@ onMounted(() => {
 const reloadData = () => {
   proxy.$api
     .get(
-      "/admin/genres?pageNumber=" +
+      "/api/genres?pageNumber=" +
         pageNumber.value +
         "&pageSize=" +
         pageSize.value +
@@ -61,7 +61,7 @@ async function deleteGenres(id) {
     })
     .then(async (result) => {
       if (result.isConfirmed) {
-        await proxy.$api.delete("/admin/genres/" + id, {}).then(() => {
+        await proxy.$api.delete("/api/genres/" + id, {}).then(() => {
           console.log("Xoá thành công!");
         });
         reloadData();

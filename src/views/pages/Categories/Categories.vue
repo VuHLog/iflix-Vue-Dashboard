@@ -16,7 +16,7 @@ const pageNumber = ref(0);
 const search = ref("");
 
 onMounted(() => {
-  proxy.$api.get("/admin/categories").then((res) => {
+  proxy.$api.get("/api/categories").then((res) => {
     categories.value = res.content;
     totalElements.value = res.totalElements;
     totalPages.value = res.totalPages;
@@ -28,7 +28,7 @@ onMounted(() => {
 const reloadData = () => {
   proxy.$api
     .get(
-      "/admin/categories?pageNumber=" +
+      "/api/categories?pageNumber=" +
         pageNumber.value +
         "&pageSize=" +
         pageSize.value +
@@ -61,7 +61,7 @@ async function deleteCategories(id) {
     })
     .then(async (result) => {
       if (result.isConfirmed) {
-        await proxy.$api.delete("/admin/categories/" + id, {}).then(() => {
+        await proxy.$api.delete("/api/categories/" + id, {}).then(() => {
           console.log("Xoá thành công!");
         });
         reloadData();

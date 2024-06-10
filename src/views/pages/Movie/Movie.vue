@@ -21,7 +21,7 @@ function truncateData(data) {
 }
 
 onMounted(() => {
-  proxy.$api.get("/admin/movies").then((res) => {
+  proxy.$api.get("/api/movies").then((res) => {
     movies.value = res.content;
     totalElements.value = res.totalElements;
     totalPages.value = res.totalPages;
@@ -33,7 +33,7 @@ onMounted(() => {
 const reloadData = () => {
   proxy.$api
     .get(
-      "/admin/movies?pageNumber=" +
+      "/api/movies?pageNumber=" +
         pageNumber.value +
         "&pageSize=" +
         pageSize.value +
@@ -66,7 +66,7 @@ async function deleteMovie(id) {
     })
     .then(async (result) => {
       if (result.isConfirmed) {
-        await proxy.$api.delete("/admin/movies/" + id, {}).then(() => {
+        await proxy.$api.delete("/api/movies/" + id, {}).then(() => {
           console.log("Xoá thành công!");
         });
         reloadData();

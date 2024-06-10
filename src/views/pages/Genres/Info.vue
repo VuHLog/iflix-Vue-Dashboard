@@ -16,7 +16,7 @@ const genres = ref({
 
 onMounted(() => {
   proxy.$api
-    .get("/admin/genres/" + genresId)
+    .get("/api/genres/" + genresId)
     .then((res) => {
       Object.assign(genres.value, res.result);
     })

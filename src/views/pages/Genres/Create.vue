@@ -38,7 +38,7 @@ async function createGenres() {
   }
 
   await proxy.$api
-    .post("/admin/genres", genres.value)
+    .post("/api/genres", genres.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;

@@ -21,7 +21,7 @@ function truncateData(data) {
 }
 
 onMounted(() => {
-  proxy.$api.get("/admin/users").then((res) => {
+  proxy.$api.get("/api/users").then((res) => {
     users.value = res.content;
     totalElements.value = res.totalElements;
     totalPages.value = res.totalPages;
@@ -33,7 +33,7 @@ onMounted(() => {
 const reloadData = () => {
   proxy.$api
     .get(
-      "/admin/users?pageNumber=" +
+      "/api/users?pageNumber=" +
         pageNumber.value +
         "&pageSize=" +
         pageSize.value +
@@ -66,7 +66,7 @@ async function deleteUser(id) {
     })
     .then(async (result) => {
       if (result.isConfirmed) {
-        await proxy.$api.delete("/admin/users/" + id, {}).then(() => {
+        await proxy.$api.delete("/api/users/" + id, {}).then(() => {
           console.log("Xoá thành công!");
         });
         reloadData();

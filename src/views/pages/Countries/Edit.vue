@@ -19,7 +19,7 @@ const countries = ref({
 
 onMounted(() => {
   proxy.$api
-    .get("/admin/countries/" + countriesId)
+    .get("/api/countries/" + countriesId)
     .then((res) => {
       Object.assign(countries.value, res.result);
     })
@@ -50,7 +50,7 @@ async function updateCountries() {
   }
 
   await proxy.$api
-    .put("/admin/countries/" + countriesId, countries.value)
+    .put("/api/countries/" + countriesId, countries.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;

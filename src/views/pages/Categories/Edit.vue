@@ -19,7 +19,7 @@ const categories = ref({
 
 onMounted(() => {
   proxy.$api
-    .get("/admin/categories/" + categoriesId)
+    .get("/api/categories/" + categoriesId)
     .then((res) => {
       Object.assign(categories.value, res.result);
     })
@@ -50,7 +50,7 @@ async function updateCategories() {
   }
 
   await proxy.$api
-    .put("/admin/categories/" + categoriesId, categories.value)
+    .put("/api/categories/" + categoriesId, categories.value)
     .then((res) => {
       if (res.message) {
         errorMsg.value = res.message;
