@@ -55,35 +55,35 @@ onMounted(() => {
     .catch((error) => console.log(error));
 
   proxy.$api
-    .get("/api/categories")
+    .get("/api/categories?pageSize=99999")
     .then((res) => {
       categoriesAvailable.value = res.content;
     })
     .catch((error) => console.log(error));
 
   proxy.$api
-    .get("/api/genres")
+    .get("/api/genres?pageSize=99999")
     .then((res) => {
       genresAvailable.value = res.content;
     })
     .catch((error) => console.log(error));
 
   proxy.$api
-    .get("/api/countries")
+    .get("/api/countries?pageSize=99999")
     .then((res) => {
       countriesAvailable.value = res.content;
     })
     .catch((error) => console.log(error));
 
   proxy.$api
-    .get("/api/actors")
+    .get("/api/actors?pageSize=99999")
     .then((res) => {
       actorsAvailable.value = res.result;
     })
     .catch((error) => console.log(error));
 
   proxy.$api
-    .get("/api/directors")
+    .get("/api/directors?pageSize=99999")
     .then((res) => {
       directorsAvailable.value = res.result;
     })
@@ -123,7 +123,7 @@ async function updateMovie() {
     errorMsg.value = "Thời lượng phải nhập là số";
     return;
   }
-  if (!/^[1-9]\d*$/.test(movie.value.episodeCurrent)) {
+  if (!/^[0-9]\d*$/.test(movie.value.episodeCurrent)) {
     errorMsg.value = "Tập hiện tại phải nhập là số";
     return;
   }

@@ -72,7 +72,7 @@ watch(data, (val) => {
               :label="props.label"
               chips
               closable-chips
-              :multiple="false"
+              multiple
               no-data-text="Không tìm thấy"
             >
               <template v-slot:chip="{ props, item }">
