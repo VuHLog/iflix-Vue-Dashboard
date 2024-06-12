@@ -138,6 +138,11 @@ watch(search, () => {
               <th
                 class="text-start text-uppercase text-head-table text-xxs font-weight-bolder opacity-7"
               >
+                Slug
+              </th>
+              <th
+                class="text-start text-uppercase text-head-table text-xxs font-weight-bolder opacity-7"
+              >
                 Link xem phim
               </th>
               <th
@@ -171,6 +176,11 @@ watch(search, () => {
                   >
                     <h6 class="mb-0 text-sm">{{ episode.movie.name }}</h6>
                   </div>
+                </td>
+                <td class="align-middle text-start">
+                  <span class="text-body-table text-xs">{{
+                    episode.slug
+                  }}</span>
                 </td>
                 <td class="align-middle text-start text-sm">
                   <p class="text-xs text-body-table mb-0 text-start">

@@ -119,6 +119,13 @@ async function createMovie() {
     return;
   }
 
+  let slug = movie.value.slug;
+  if (slug.charAt(0) === "/") {
+    movie.value.slug = slug.replaceAll(" ", "-");
+  } else {
+    movie.value.slug = "/" + slug.replaceAll(" ", "-");
+  }
+
   await proxy.$api
     .post("/api/movies", movie.value)
     .then((res) => {

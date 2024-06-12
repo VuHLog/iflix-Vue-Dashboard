@@ -18,6 +18,7 @@ const listEpisodeNumbers = ref([]);
 
 const episode = ref({
   link: "",
+  slug:"",
   episodeNumber: "",
   linkServer: "",
   movie: {},
@@ -57,7 +58,7 @@ async function createEpisode() {
     errorMsg.value = "Thời lượng phải nhập là số";
     return;
   }
-
+  episode.value.slug = "/"+episode.value.episodeNumber;
   await proxy.$api
     .post("/api/episodes", episode.value)
     .then((res) => {

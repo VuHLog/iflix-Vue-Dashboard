@@ -29,7 +29,6 @@ import InfoMovie from "@pages/Movie/Info.vue";
 import Episode from "@pages/Episodes/Episode.vue";
 import CreateEpisode from "@pages/Episodes/Create.vue";
 import EditEpisode from "@pages/Episodes/Edit.vue";
-import InfoEpisode from "@pages/Episodes/Info.vue";
 import Profile from "@pages/profile/Profile.vue";
 
 

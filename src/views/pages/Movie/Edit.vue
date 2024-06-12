@@ -136,6 +136,13 @@ async function updateMovie() {
     return;
   }
 
+  let slug = movie.value.slug;
+  if (slug.charAt(0) === "/") {
+    movie.value.slug = slug.replaceAll(" ", "-");
+  } else {
+    movie.value.slug = "/" + slug.replaceAll(" ", "-");
+  }
+
   await proxy.$api
     .put("/api/movies/" + movieId, movie.value)
     .then((res) => {

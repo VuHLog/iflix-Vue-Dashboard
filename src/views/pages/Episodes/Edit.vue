@@ -17,6 +17,7 @@ const errorMsg = ref("");
 
 const episode = ref({
   link: "",
+  slug: "",
   episodeNumber: "",
   linkServer: "",
   movie: {},
@@ -52,7 +53,7 @@ async function updateEpisode() {
     errorMsg.value = "Thời lượng phải nhập là số";
     return;
   }
-
+  episode.value.slug = "/"+episode.value.episodeNumber;
   await proxy.$api
     .put("/api/episodes/" + episodeId, episode.value)
     .then((res) => {
