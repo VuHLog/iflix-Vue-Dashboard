@@ -106,10 +106,6 @@ async function createMovie() {
     errorMsg.value = "Thời lượng phải nhập là số";
     return;
   }
-  if (!/^[0-9]\d*$/.test(movie.value.episodeCurrent)) {
-    errorMsg.value = "Tập hiện tại phải nhập là số";
-    return;
-  }
   if (!/^[1-9]\d*$/.test(movie.value.episodeTotal)) {
     errorMsg.value = "Tổng số tập phải nhập là số";
     return;
@@ -198,18 +194,6 @@ async function createMovie() {
               class="form-control"
               type="text"
               placeholder="Thời lượng"
-            />
-          </div>
-          <div class="col-md-6 text-start mb-4">
-            <label for="episodeCurrent-text-input" class="form-label"
-              >Tập hiện tại</label
-            >
-            <input
-              v-model.trim="movie.episodeCurrent"
-              id="episodeCurrent-text-input"
-              class="form-control"
-              type="text"
-              placeholder="Tập hiện tại"
             />
           </div>
           <div class="col-md-6 text-start mb-4">
